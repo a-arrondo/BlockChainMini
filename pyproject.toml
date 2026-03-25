@@ -1,7 +1,7 @@
 [project]
 name = "miniblockchain"
 version = "0.1.0"
-description = "Add your description here"
+description = "A modest blockchain implementation from scratch."
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = []
