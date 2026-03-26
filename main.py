@@ -1,33 +1,16 @@
 
+import json
 from pprint import pprint
 
-from schemas import Blockchain, Transaction
+from schemas import Blockchain
+from config import Config
 
 def main():
-    transactions_log = [
-        {
-            "sender": "Alice",
-            "receiver": "Bob",
-            "amount": 10.0
-        },
-        {
-            "sender": "Bob",
-            "receiver": "Alice",
-            "amount": 5.0
-        },
-        {
-            "sender": "Bob",
-            "receiver": "Alice",
-            "amount": 2.3
-        },
-        {
-            "sender": "Bob",
-            "receiver": "Alice",
-            "amount": 2.7
-        }
-    ]
+    cfg = Config()
+    with open(cfg.json_path) as f:
+        transactions_log = json.load(f)
 
-    blockchain = Blockchain()
+    blockchain = Blockchain(difficulty=cfg.difficulty)
     print(f"Validation: {blockchain.validate_chain()}\n")
     for i, transaction in enumerate(transactions_log):
         print(f"# Transaction {i}")

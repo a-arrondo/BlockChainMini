@@ -1,0 +1,22 @@
+[
+	{
+		"sender": "Alice",
+		"receiver": "Bob",
+		"amount": 10.0
+        },
+        {
+        	"sender": "Bob",
+        	"receiver": "Alice",
+        	"amount": 5.0
+        },
+        {
+        	"sender": "Bob",
+        	"receiver": "Alice",
+        	"amount": 2.3
+        },
+        {
+        	"sender": "Bob",
+        	"receiver": "Alice",
+        	"amount": 2.7
+	}
+]
