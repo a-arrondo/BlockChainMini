@@ -1,28 +1,37 @@
 
-import json
-from pprint import pprint
+from fastapi import FastAPI
 
-from schemas import Blockchain
 from config import Config
+from schemas import Blockchain
 
-def main():
-    cfg = Config()
-    with open(cfg.json_path) as f:
-        transactions_log = json.load(f)
+cfg = Config()
+app = FastAPI()
+blockchain = Blockchain(difficulty=cfg.difficulty)
 
-    blockchain = Blockchain(difficulty=cfg.difficulty)
-    print(f"Validation: {blockchain.validate_chain()}\n")
-    for i, transaction in enumerate(transactions_log):
-        print(f"# Transaction {i}")
+# TODO create pydantic schemas
+
+@app.get("/blockchain/length")
+async def get_blockchain_length():
+    return {"length": len(blockchain.chain)}
+
+@app.get("/blockchain/history")
+async def get_blockchain_history():
+    return {"history": blockchain.chain}
+
+@app.post("/blockchain/append")
+async def add_transaction(
+        sender: str,
+        receiver: str,
+        amount: float
+        ):
+    try:
         blockchain.add_transaction(
-            transaction["sender"],
-            transaction["receiver"],
-            transaction["amount"]
+            sender=sender,
+            receiver=receiver,
+            amount=amount
         )
         blockchain.create_new_block()
-        pprint(blockchain)
-        print(f"Validation: {blockchain.validate_chain()}\n")
-        
+    except Exception as e:
+        #TODO: handle exception correctly
+        pass
 
-if __name__ == "__main__":
-    main()
