@@ -1,4 +1,4 @@
-# MiniBlockchain
+# BlockChainMini
 A modest blockchain implementation from scratch in Python.
 
 ## Objective
@@ -6,7 +6,7 @@ The aim of this proyect is merely educational. This repository does not seek a p
 
 ## Next steps
 This section contains the next features that will be included to the repository:
-- Creation of an API using FastAPI to post transactions and get information about the blockchain.
+- Handling of errors and domain logic fixes
 
 ---
 <img src="https://ai-label.org/image-pack/ai-label_banner-assisted-by-ai.svg" align="right" width="125">
