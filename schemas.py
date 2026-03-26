@@ -7,7 +7,9 @@ from dataclasses import dataclass, asdict, field
 @dataclass
 class Block:
     index: int
-    data: str
+    sender: str
+    receiver: str
+    amount: float
     previous_hash: str | None
 
     proof: int = 0
@@ -26,3 +28,4 @@ class Block:
             block_dict, sort_keys=True
             ).encode()
         return hashlib.sha256(block_str).hexdigest()
+
