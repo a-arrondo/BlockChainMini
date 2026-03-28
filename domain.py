@@ -4,6 +4,7 @@ import hashlib
 import datetime as dt
 from dataclasses import dataclass, asdict, field
 
+from schemas import TransactionModel, BlockModel, NeighbourModel
 
 @dataclass
 class Transaction:
@@ -20,6 +21,14 @@ class Transaction:
 
         if self.sender != "Blockchain" and self.amount <= 0:
             raise ValueError("The amount of the transaction must be a positive float")
+
+    def _to_transaction_model(self) -> TransactionModel:
+        return TransactionModel(
+            sender=self.sender,
+            receiver=self.receiver,
+            amount=self.amount
+        )
+
         
 @dataclass
 class Block:
@@ -44,6 +53,17 @@ class Block:
         }, sort_keys=True).encode()
         return hashlib.sha256(block_str).hexdigest()
 
+    def _to_block_model(self) -> BlockModel:
+        return BlockModel(
+            index=block.index,
+            previous_hash=block.previous_hash,
+            timestamp=block.timestamp,
+            transactions=[
+                trans._to_transaction_model()
+                    for trans in block.transactions
+            ]
+        )
+
 
 @dataclass(frozen=True)
 class Neighbour:
@@ -53,6 +73,12 @@ class Neighbour:
     @property
     def url(self):
         return f"http://{self.ip}:{self.port}"
+
+    def _to_neighbour_model(self) -> NeighbourModel:
+        return NeighbourModel(
+            ip=self.ip,
+            port=self.port
+        )
 
 
 @dataclass
@@ -73,7 +99,7 @@ class Blockchain:
 
     def create_new_block(
             self
-            ) -> None:
+            ) -> Block:
         pending_list = list(self.pending_transactions)
         
         if not self.chain:
@@ -94,6 +120,7 @@ class Blockchain:
         self.proof_of_work(new_block)
         new_block.hash = new_block.calculate_hash()
         self.chain.append(new_block)
+        return new_block
 
     def proof_of_work(
             self,
