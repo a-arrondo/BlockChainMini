@@ -38,10 +38,11 @@ class Block:
     timestamp: str = field(default_factory=lambda: str(dt.datetime.now()))
     transactions: list[Transaction] = field(default_factory=list)
     nonce: int = 0
-    hash: str = field(init=False)
+    hash: str = field(default=None)
     
     def __post_init__(self) -> None:
-        self.hash = ""
+        if not self.hash:
+            self.hash = ""
         
     def calculate_hash(self) -> str:
         block_str = json.dumps({
@@ -61,7 +62,9 @@ class Block:
             transactions=[
                 trans._to_transaction_model()
                     for trans in self.transactions
-            ]
+            ],
+            nonce=self.nonce,
+            hash=self.hash
         )
 
 

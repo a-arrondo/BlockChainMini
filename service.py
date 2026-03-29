@@ -166,7 +166,7 @@ class BlockChainHandler:
             peers_data = await asyncio.gather(*tasks, return_exceptions=True)
 
             longest = max(
-                (hm.chain
+                (hm.history
                     for hm in peers_data
                     if isinstance(hm, HistoryModel) and hm.is_valid
                 ),
@@ -175,11 +175,25 @@ class BlockChainHandler:
             )
 
             if longest and len(longest) > len(self.blockchain.chain):
-                self.blockchain.chain = longest
-
+                self.blockchain.chain = [
+                    Block(
+                        index=b.index,
+                        previous_hash=b.previous_hash,
+                        timestamp=b.timestamp,
+                        transactions = [
+                            Transaction(
+                                sender=trans.sender,
+                                receiver=trans.receiver,
+                                amount=trans.amount
+                            ) for trans in b.transactions
+                        ],
+                        nonce=b.nonce,
+                        hash=b.hash
+                    ) for b in longest
+                ]
     async def consensus_loop(self) -> None:
         while True:
+            await asyncio.sleep(self.cfg.consensus_interval)
             if self.blockchain.peers:
-                await asyncio.sleep(self.cfg.consensus_interval)
                 await self.sync_with_peers()
 
