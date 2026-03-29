@@ -6,3 +6,4 @@ class Config:
     difficulty: int = 2
     mining_interval: int = 30
     min_transactions: int = 5
+    consensus_interval: int = 60

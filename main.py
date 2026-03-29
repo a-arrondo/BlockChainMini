@@ -1,13 +1,19 @@
 
+import asyncio
 from fastapi import status, FastAPI, HTTPException
 
 from service import BlockChainHandler
-from schemas import StatusModel, HistoryModel, TransactionModel, NeighbourModel, PeersModel
+from schemas import *
 
 
 app = FastAPI()
 service = BlockChainHandler()
 
+@app.on_event("startup")
+async def startup():
+    await service.initialize()
+    asyncio.create_task(service.mining_loop())
+    asyncio.create_task(service.consensus_loop())
 
 @app.get("/blockchain/status", response_model=StatusModel)
 async def get_blockchain_length():
