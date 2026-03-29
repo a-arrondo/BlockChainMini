@@ -55,12 +55,12 @@ class Block:
 
     def _to_block_model(self) -> BlockModel:
         return BlockModel(
-            index=block.index,
-            previous_hash=block.previous_hash,
-            timestamp=block.timestamp,
+            index=self.index,
+            previous_hash=self.previous_hash,
+            timestamp=self.timestamp,
             transactions=[
                 trans._to_transaction_model()
-                    for trans in block.transactions
+                    for trans in self.transactions
             ]
         )
 

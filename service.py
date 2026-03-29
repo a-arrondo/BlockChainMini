@@ -82,7 +82,7 @@ class BlockChainHandler:
     def _should_mine(self):
         enough_transactions = len(self.blockchain.pending_transactions) >= self.cfg.min_transactions
         timeout_reached = (time.time() - self.last_mine) >= self.cfg.mining_interval
-        return enough_transactions or (timeout_reached and bool(self.pending_transactions))
+        return enough_transactions or (timeout_reached and bool(self.blockchain.pending_transactions))
 
     async def _send_block_to(
             self,
@@ -100,8 +100,8 @@ class BlockChainHandler:
         while True:
             await asyncio.sleep(1)
             if self._should_mine():
-                mined_block = self.create_new_block()
-                self.last_mime = time.time()
+                mined_block = self.blockchain.create_new_block()
+                self.last_mine = time.time()
                 if self.blockchain.peers:
                     async with httpx.AsyncClient() as client:
                         tasks = [
