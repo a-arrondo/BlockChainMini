@@ -1,5 +1,6 @@
 
-from pydantic import BaseModel
+import uuid
+from pydantic import BaseModel, Field
 
 
 class StatusModel(BaseModel):
@@ -10,6 +11,7 @@ class TransactionModel(BaseModel):
     sender: str
     receiver: str
     amount: float
+    tx_id: str = Field(default_factory=lambda: str(uuid.uuid4())) 
 
 class BlockModel(BaseModel):
     index: int

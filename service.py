@@ -51,7 +51,8 @@ class BlockChainHandler:
             Transaction(
                 sender=transaction.sender,
                 receiver=transaction.receiver,
-                amount=transaction.amount
+                amount=transaction.amount,
+                tx_id=transaction.tx_id
             )
         )
 
@@ -137,7 +138,8 @@ class BlockChainHandler:
                     Transaction(
                         sender=trans.sender,
                         receiver=trans.receiver,
-                        amount=trans.amount
+                        amount=trans.amount,
+                        tx_id=trans.tx_id
                     ) for trans in incoming_block.transactions
                 ],
                 nonce=incoming_block.nonce,
@@ -150,12 +152,13 @@ class BlockChainHandler:
                 is_next):
 
                 included = {
-                    (tx.sender, tx.receiver, tx.amount)
+                    tx.tx_id
                     for tx in block.transactions
                 }
+
                 self.blockchain.pending_transactions = [
-                    tx for tx in self.blockchain.transactions
-                    if (tx.sender, tx.receiver, tx.amount) not in included
+                    tx for tx in self.blockchain.pending_transactions
+                    if tx.tx_id not in included
                 ]
                 self.blockchain.chain.append(block)
             elif not is_next:
@@ -208,7 +211,8 @@ class BlockChainHandler:
                             Transaction(
                                 sender=trans.sender,
                                 receiver=trans.receiver,
-                                amount=trans.amount
+                                amount=trans.amount,
+                                tx_id=trans.tx_id
                             ) for trans in b.transactions
                         ],
                         nonce=b.nonce,
@@ -217,18 +221,25 @@ class BlockChainHandler:
                 ]
 
                 included = {
-                    (tx.sender, tx.receiver, tx.amount)
+                    tx.tx_id
                     for block in new_chain
                     for tx in block.transactions
                 }
 
-                self.blockchain.pending_translations = [
+                orphaned = [
+                    tx
+                    for block in self.blockchain.chain
+                    for tx in block.transactions
+                    if tx.tx_id not in included
+                ]
+
+                still_pending = [
                     tx for tx in self.blockchain.pending_transactions
-                    if(tx.sender, tx.receiver, tx.amount) not in included
+                    if tx.tx_id not in included
                 ]
 
                 self.blockchain.chain = new_chain
-
+                self.blockchain.pending_transactions = orphaned + still_pending
 
     async def consensus_loop(self) -> None:
         while True:

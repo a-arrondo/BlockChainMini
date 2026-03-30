@@ -1,4 +1,5 @@
 
+import uuid
 import json
 import hashlib
 import datetime as dt
@@ -11,6 +12,7 @@ class Transaction:
     sender: str
     receiver: str
     amount: float
+    tx_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     
     def __post_init__(self) -> None:
         if not self.sender.strip():
@@ -26,7 +28,8 @@ class Transaction:
         return TransactionModel(
             sender=self.sender,
             receiver=self.receiver,
-            amount=self.amount
+            amount=self.amount,
+            tx_id=self.tx_id
         )
 
         
