@@ -91,14 +91,15 @@ class Blockchain:
     difficulty: int = 4
     peers: set[Neighbour] = field(default_factory=set)
     def __post_init__(self):
-        self.add_transaction(
-            Transaction(
-                "Blockchain",
-                "Genesis",
-                0.0
-            )
+        genesis = Block(
+            index=0,
+            previous_hash="0",
+            timestamp="2026-01-01 00:00:00",
+            transactions=[]
         )
-        self.create_new_block()
+        self.proof_of_work(genesis)
+        self.chain.append(genesis)
+
 
     def create_new_block(
             self
