@@ -15,11 +15,13 @@ class BlockChainHandler:
     blockchain: Blockchain = field(init=False)
     last_mine: float = field(default_factory=time.time, init=False)
 
+
     async def initialize(self) -> None:
         self.blockchain = await asyncio.to_thread(
             Blockchain, 
             difficulty=self.cfg.difficulty
         )
+
 
     def get_status(self) -> StatusModel:
         return StatusModel(
@@ -27,6 +29,7 @@ class BlockChainHandler:
             is_valid=self.blockchain.validate_chain()
         )
     
+
     def get_history(self) -> HistoryModel:
         hist = [
             block._to_block_model()
@@ -38,6 +41,7 @@ class BlockChainHandler:
             is_valid=self.blockchain.validate_chain(),
             history=hist
         )
+
 
     def add_transaction(
             self,
@@ -51,6 +55,7 @@ class BlockChainHandler:
             )
         )
 
+
     def get_neighbours(self) -> PeersModel:
         peers = [
             peer._to_neighbour_model()
@@ -60,6 +65,7 @@ class BlockChainHandler:
             n_peers=len(self.blockchain.peers),
             peers=peers
         )
+
 
     def add_neighbours(
             self,
@@ -76,13 +82,16 @@ class BlockChainHandler:
             neighs
         )
 
+
     def reset_neighbours(self) -> None:
         self.blockchain.reset_neighbours()
+
 
     def _should_mine(self):
         enough_transactions = len(self.blockchain.pending_transactions) >= self.cfg.min_transactions
         timeout_reached = (time.time() - self.last_mine) >= self.cfg.mining_interval
         return enough_transactions or (timeout_reached and bool(self.blockchain.pending_transactions))
+
 
     async def _send_block_to(
             self,
@@ -95,6 +104,7 @@ class BlockChainHandler:
         except Exception:
             # TODO: apply some policy?
             pass
+
 
     async def mining_loop(self) -> None:
         while True:
@@ -112,6 +122,7 @@ class BlockChainHandler:
                             ) for peer in self.blockchain.peers
                         ]
                         await asyncio.gather(*tasks, return_exceptions=True)
+
 
     def add_block(
             self,
@@ -137,6 +148,15 @@ class BlockChainHandler:
             if (block.hash == block.calculate_hash() and
                 self.blockchain.valid_pow(block.hash) and
                 is_next):
+
+                included = {
+                    (tx.sender, tx.receiver, tx.amount)
+                    for tx in block.transactions
+                }
+                self.blockchain.pending_transactions = [
+                    tx for tx in self.blockchain.transactions
+                    if (tx.sender, tx.receiver, tx.amount) not in included
+                ]
                 self.blockchain.chain.append(block)
             elif not is_next:
                 # TODO apply consensus policy
@@ -148,6 +168,7 @@ class BlockChainHandler:
             # invalid transaction or invalid block
             raise
 
+
     async def _fetch_history(
             self,
             client: AsyncClient,
@@ -158,6 +179,7 @@ class BlockChainHandler:
             return HistoryModel(**result.json())
         except Exception as e:
             return None
+
 
     async def sync_with_peers(self) -> None:
         async with httpx.AsyncClient() as client:
@@ -177,7 +199,7 @@ class BlockChainHandler:
             )
 
             if longest and len(longest) > len(self.blockchain.chain):
-                self.blockchain.chain = [
+                new_chain = [
                     Block(
                         index=b.index,
                         previous_hash=b.previous_hash,
@@ -193,6 +215,21 @@ class BlockChainHandler:
                         hash=b.hash
                     ) for b in longest
                 ]
+
+                included = {
+                    (tx.sender, tx.receiver, tx.amount)
+                    for block in new_chain
+                    for tx in block.transactions
+                }
+
+                self.blockchain.pending_translations = [
+                    tx for tx in self.blockchain.pending_transactions
+                    if(tx.sender, tx.receiver, tx.amout) not in included
+                ]
+
+                self.blockchain.chain = new_chain
+
+
     async def consensus_loop(self) -> None:
         while True:
             await asyncio.sleep(self.cfg.consensus_interval)
