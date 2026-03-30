@@ -91,7 +91,7 @@ class BlockChainHandler:
             block: BlockModel
             ) -> None:
         try:
-            await client.post(f"{peer.url}/blockchain/block", json=block)
+            await client.post(f"{peer.url}/blockchain/block", json=block.model_dump())
         except Exception:
             # TODO: apply some policy?
             pass
@@ -133,8 +133,10 @@ class BlockChainHandler:
                 hash=incoming_block.hash
             )
             
-            is_next = block.previous_hash == self.blockchain.chain.last_block.hash
-            if (block.hash == block.calculate_hash() and is_next):
+            is_next = block.previous_hash == self.blockchain.last_block.hash
+            if (block.hash == block.calculate_hash() and
+                self.blockchain.valid_pow(block.hash) and
+                is_next):
                 self.blockchain.chain.append(block)
             elif not is_next:
                 # TODO apply consensus policy

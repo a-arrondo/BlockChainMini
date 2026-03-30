@@ -121,7 +121,6 @@ class Blockchain:
 
         self.pending_transactions = []
         self.proof_of_work(new_block)
-        new_block.hash = new_block.calculate_hash()
         self.chain.append(new_block)
         return new_block
 
