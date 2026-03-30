@@ -224,7 +224,7 @@ class BlockChainHandler:
 
                 self.blockchain.pending_translations = [
                     tx for tx in self.blockchain.pending_transactions
-                    if(tx.sender, tx.receiver, tx.amout) not in included
+                    if(tx.sender, tx.receiver, tx.amount) not in included
                 ]
 
                 self.blockchain.chain = new_chain
