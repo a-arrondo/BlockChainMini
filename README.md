@@ -49,10 +49,8 @@ Once running, interactive API docs are available at `http://localhost:<port>/doc
 ```
 
 ## Roadmap
-- Fix edge cases in decentralized consensus
 - Improve code cleanliness
 - Explore a visual interface
-- Update pending transactions correct
 
 ---
 
