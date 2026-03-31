@@ -24,6 +24,7 @@ If the backend runs on a different port, update the proxy target accordingly.
 - **Neighbours** — view connected peer nodes, add new ones by IP and port, or clear all
 
 ## Project structure
+This section includes screenshots of the frontend:
 ```
 ├── src/
 │   ├── App.jsx       # All components and tab logic

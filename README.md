@@ -70,7 +70,13 @@ Interactive API docs are available at `http://localhost:<port>/docs`.
 ![Explorer: neighbours](screenshots/neighbours.png)
 
 ---
-<table><tr>
-<td>The backend was built with the assistance of generative AI. The frontend is completely coded by AI (<a href="https://claude.ai/">Claude</a>).</td>
-<td><img src="https://ai-label.org/image-pack/ai-label_banner-assisted-by-ai.svg" width="125"></td>
-</tr></table>
+<table>
+  <tr>
+    <td>The <strong>backend</strong> was built with the assistance of generative AI.</td>
+    <td><img src="https://ai-label.org/image-pack/ai-label_banner-assisted-by-ai.svg" width="125"></td>
+  </tr>
+  <tr>
+    <td>The <strong>frontend</strong> is completely coded by AI .</td>
+    <td><img src="https://ai-label.org/image-pack/ai-label_banner-made-with-ai.svg" width="125"></td>
+  </tr>
+</table>
