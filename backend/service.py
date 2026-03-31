@@ -126,7 +126,7 @@ class BlockChainHandler:
                         await asyncio.gather(*tasks, return_exceptions=True)
 
 
-    def add_block(
+    async def add_block(
             self,
             incoming_block: BlockModel
             ) -> None:
