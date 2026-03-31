@@ -90,7 +90,7 @@ async def reset_neighbours():
 @app.post("/blockchain/block", status_code=status.HTTP_204_NO_CONTENT)
 async def receive_block(block: BlockModel):
     try:
-        service.add_block(block)
+        await service.add_block(block)
     except ValueError as ve:
         raise HTTPException(
             status_code=400,

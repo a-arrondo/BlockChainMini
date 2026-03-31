@@ -14,6 +14,7 @@ class BlockChainHandler:
     cfg: Config = field(default_factory=Config)
     blockchain: Blockchain = field(init=False)
     last_mine: float = field(default_factory=time.time, init=False)
+    _syncing: bool = field(default=False, init=False)
 
 
     async def initialize(self) -> None:
@@ -162,10 +163,12 @@ class BlockChainHandler:
                 ]
                 self.blockchain.chain.append(block)
             elif not is_next:
-                # TODO apply consensus policy
-                asyncio.create_task(self.sync_with_peers())
-            else:
-                raise ValueError("Invalid block hash")
+                if not self._syncing:
+                    self._syncing = True
+                    try:
+                        await self.sync_with_peers()
+                    finally:
+                        self._syncing = False
 
         except ValueError as ve:
             # invalid transaction or invalid block
