@@ -5,58 +5,37 @@ A minimal blockchain implementation built from scratch in Python, with a React e
 This project illustrates the core mechanics of a blockchain: transaction handling, proof-of-work mining, and multi-node consensus. It is not intended for production use.
 
 ## Requirements
-
-**Backend**
-- Python 3.13+
-- [uv](https://github.com/astral-sh/uv)
-
-**Frontend**
-- Node.js 18+
-- npm
+- Python 3.13+ and [uv](https://github.com/astral-sh/uv)
+- Node.js 18+ and npm
 
 ## Setup
-
-Clone the repository:
 ```bash
 git clone <repo-url>
 cd BlockChainMini
-```
-
-Install backend dependencies:
-```bash
 uv sync
-```
-
-Install frontend dependencies:
-```bash
-cd frontend
-npm install
+cd frontend && npm install
 ```
 
 ## Running
-
 Start the backend (defaults to port 8000):
 ```bash
 uv run uvicorn main:app
 ```
-
 Start the frontend:
 ```bash
-cd frontend
-npm run dev
+cd frontend && npm run dev
 ```
-
-Open `http://localhost:5173` in your browser. The frontend proxies all `/blockchain` API calls to the backend automatically.
+Open `http://localhost:5173`. The frontend proxies all `/blockchain` calls to the backend automatically.
 
 To run multiple nodes:
 ```bash
 uv run uvicorn main:app --port 8001
 uv run uvicorn main:app --port 8002
 ```
-Then use the Neighbours tab in the explorer (or the `/blockchain/neighbours` endpoint directly) to connect nodes to each other.
+Then use the Neighbours tab in the explorer to connect nodes to each other.
 
 ## API overview
-Once the backend is running, interactive API docs are available at `http://localhost:<port>/docs`.
+Interactive API docs are available at `http://localhost:<port>/docs`.
 
 | Endpoint | Method | Description |
 |---|---|---|
@@ -83,13 +62,15 @@ Once the backend is running, interactive API docs are available at `http://local
 ```
 
 ## Screenshots
-Here are some screenshots of the web-based explorer:
-### Main page
+### History
 ![Explorer: history](screenshots/history.png)
-### Add transactions
+### Transactions
 ![Explorer: transactions](screenshots/transactions.png)
-### Add neighbours
+### Neighbours
 ![Explorer: neighbours](screenshots/neighbours.png)
----
 
-<img src="https://ai-label.org/image-pack/ai-label_banner-assisted-by-ai.svg" align="right" width="125">
+---
+<table><tr>
+<td>The backend was built with the assistance of generative AI. The frontend is completely coded by AI (<a href="https://claude.ai/">Claude</a>).</td>
+<td><img src="https://ai-label.org/image-pack/ai-label_banner-assisted-by-ai.svg" width="125"></td>
+</tr></table>

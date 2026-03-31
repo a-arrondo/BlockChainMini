@@ -1,42 +1,8 @@
 # BlockChainMini — Frontend
-
-A minimal blockchain explorer built with React and Vite, designed to interact with the [BlockChainMini](../backend/README.md/README.md) backend.
-
-## Requirements
-
-- Node.js 18+
-- npm
-
-## Setup
-
-From the frontend directory, install dependencies:
-
-```bash
-npm install
-```
-
-## Running
-
-Start the backend first (defaults to port 8000):
-
-```bash
-cd backend/
-uv run uvicorn main:app
-```
-
-Then start the frontend dev server:
-
-```bash
-cd frontend/
-npm run dev
-```
-
-Open `http://localhost:5173` in your browser.
+The React explorer for BlockChainMini. For full setup and running instructions see the [main README](../README.md).
 
 ## Vite proxy
-
-API calls are proxied to the backend via `vite.config.js`. Make sure it contains:
-
+API calls are proxied to the backend via `vite.config.js`:
 ```js
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -50,18 +16,14 @@ export default defineConfig({
   }
 })
 ```
-
 If the backend runs on a different port, update the proxy target accordingly.
 
 ## Features
-
-- **Status** — block count and chain integrity, shown persistently in the sidebar with auto-refresh every 5 seconds
 - **History** — full chain log in reverse order, showing index, hash, transaction count, and timestamp per block
 - **Transactions** — form to submit a new pending transaction (sender, receiver, amount)
 - **Neighbours** — view connected peer nodes, add new ones by IP and port, or clear all
 
 ## Project structure
-
 ```
 ├── src/
 │   ├── App.jsx       # All components and tab logic
