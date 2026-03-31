@@ -97,7 +97,7 @@ class Blockchain:
         genesis = Block(
             index=0,
             previous_hash="0",
-            timestamp="2026-01-01 00:00:00",
+            timestamp="2026-01-01 00:00:00.000000",
             transactions=[]
         )
         self.proof_of_work(genesis)
