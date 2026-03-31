@@ -68,23 +68,28 @@ Once the backend is running, interactive API docs are available at `http://local
 
 ## Project structure
 ```
-├── main.py           # FastAPI routes
-├── service.py        # Business logic and async loops
-├── domain.py         # Domain classes (Blockchain, Block, Transaction...)
-├── schemas.py        # Pydantic models
-├── config.py         # Configuration parameters
+├── backend/
+│   ├── main.py           # FastAPI routes
+│   ├── service.py        # Business logic and async loops
+│   ├── domain.py         # Domain classes (Blockchain, Block, Transaction...)
+│   ├── schemas.py        # Pydantic models
+│   └── config.py         # Configuration parameters
 └── frontend/
     ├── src/
-    │   ├── App.jsx   # All components and tab logic
-    │   └── App.css   # Styles
+    │   ├── App.jsx       # All components and tab logic
+    │   └── App.css       # Styles
     ├── index.html
     └── vite.config.js
 ```
 
-## Roadmap
-- Fix edge cases in decentralized consensus
-- Improve code cleanliness
-
+## Screenshots
+Here are some screenshots of the web-based explorer:
+### Main page
+![Explorer: history](screenshots/history.png)
+### Add transactions
+![Explorer: transactions](screenshots/transactions.png)
+### Add neighbours
+![Explorer: neighbours](screenshots/neighbours.png)
 ---
 
 <img src="https://ai-label.org/image-pack/ai-label_banner-assisted-by-ai.svg" align="right" width="125">
