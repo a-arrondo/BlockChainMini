@@ -1,35 +1,62 @@
 # BlockChainMini
-A minimal blockchain implementation built from scratch in Python, designed for learning purposes.
+A minimal blockchain implementation built from scratch in Python, with a React explorer frontend. Designed for learning purposes.
 
 ## Objective
-This project aims to illustrate the core mechanics of a blockchain: transaction handling, proof-of-work mining, and multi-node consensus. It is not intended for production use.
+This project illustrates the core mechanics of a blockchain: transaction handling, proof-of-work mining, and multi-node consensus. It is not intended for production use.
 
 ## Requirements
+
+**Backend**
 - Python 3.13+
 - [uv](https://github.com/astral-sh/uv)
 
+**Frontend**
+- Node.js 18+
+- npm
+
 ## Setup
-Clone the repository and install dependencies:
+
+Clone the repository:
 ```bash
 git clone <repo-url>
 cd BlockChainMini
+```
+
+Install backend dependencies:
+```bash
 uv sync
 ```
 
-## Running the nodes
-Start the first node (defaults to port 8000):
+Install frontend dependencies:
+```bash
+cd frontend
+npm install
+```
+
+## Running
+
+Start the backend (defaults to port 8000):
 ```bash
 uv run uvicorn main:app
 ```
-Add more nodes on different ports:
+
+Start the frontend:
+```bash
+cd frontend
+npm run dev
+```
+
+Open `http://localhost:5173` in your browser. The frontend proxies all `/blockchain` API calls to the backend automatically.
+
+To run multiple nodes:
 ```bash
 uv run uvicorn main:app --port 8001
 uv run uvicorn main:app --port 8002
 ```
-Then use the `/blockchain/neighbours` endpoint to connect nodes to each other.
+Then use the Neighbours tab in the explorer (or the `/blockchain/neighbours` endpoint directly) to connect nodes to each other.
 
 ## API overview
-Once running, interactive API docs are available at `http://localhost:<port>/docs`.
+Once the backend is running, interactive API docs are available at `http://localhost:<port>/docs`.
 
 | Endpoint | Method | Description |
 |---|---|---|
@@ -41,16 +68,22 @@ Once running, interactive API docs are available at `http://localhost:<port>/doc
 
 ## Project structure
 ```
-├── main.py       # FastAPI routes
-├── service.py    # Business logic and async loops
-├── domain.py     # Domain classes (Blockchain, Block, Transaction...)
-├── schemas.py    # Pydantic models
-└── config.py     # Configuration parameters
+├── main.py           # FastAPI routes
+├── service.py        # Business logic and async loops
+├── domain.py         # Domain classes (Blockchain, Block, Transaction...)
+├── schemas.py        # Pydantic models
+├── config.py         # Configuration parameters
+└── frontend/
+    ├── src/
+    │   ├── App.jsx   # All components and tab logic
+    │   └── App.css   # Styles
+    ├── index.html
+    └── vite.config.js
 ```
 
 ## Roadmap
+- Fix edge cases in decentralized consensus
 - Improve code cleanliness
-- Explore a visual interface
 
 ---
 

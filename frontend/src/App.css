@@ -1,0 +1,289 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap');
+
+:root {
+  --bg:      #f5f4f0;
+  --surface: #eeecea;
+  --text:    #1a1a1a;
+  --muted:   #999;
+  --border:  #ddd;
+  --valid:   #2d6a4f;
+  --invalid: #c1121f;
+  --mono:    'IBM Plex Mono', monospace;
+  --sidebar: 200px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+}
+
+/* ── 4:3 shell ── */
+.shell {
+  aspect-ratio: 4 / 3;
+  width: min(100vw, 133.33vh);
+  height: min(75vw, 100vh);
+  margin: auto;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: var(--sidebar) 1fr;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem 1.5rem;
+  gap: 1.75rem;
+  overflow: hidden;
+}
+
+.brand { display: flex; flex-direction: column; gap: 0.3rem; }
+
+.brand-name {
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.brand-accent { opacity: 0.35; }
+
+.brand-sub {
+  font-size: 0.7rem;        /* was 0.55rem */
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── Sidebar status widget ── */
+.sidebar-status {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+}
+
+.sidebar-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.sidebar-stat-value {
+  font-size: 1.9rem;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.sidebar-stat-value.valid   { color: var(--valid); }
+.sidebar-stat-value.invalid { color: var(--invalid); }
+
+.sidebar-stat-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* ── Nav ── */
+nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  font-family: var(--mono);
+  font-size: 0.72rem;       /* was 0.65rem */
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+  padding: 0.55rem 0;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.15s;
+  position: relative;
+}
+
+.nav-item:first-child { border-top: 1px solid var(--border); }
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  left: -1.5rem;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: var(--text);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.nav-item.active { color: var(--text); }
+.nav-item.active::before { opacity: 1; }
+.nav-item:hover { color: var(--text); }
+
+.sidebar-footer {
+  margin-top: auto;
+  font-size: 0.6rem;        /* was 0.55rem */
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.8;
+}
+
+/* ── Content pane ── */
+.content {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 2.5rem;
+  overflow-y: auto;
+  gap: 1.75rem;
+}
+
+.pane-label {
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.75rem;
+}
+
+/* ── Table ── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.7rem;
+  table-layout: fixed;
+}
+
+.data-table colgroup col:nth-child(1) { width: 2.5rem; }
+.data-table colgroup col:nth-child(2) { width: 28%; }
+.data-table colgroup col:nth-child(3) { width: 5rem; }
+.data-table colgroup col:nth-child(4) { width: auto; }
+
+.data-table th {
+  text-align: left;
+  font-size: 0.7rem;
+  letter-spacing: 0;
+  color: var(--muted);
+  padding: 0 1rem 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+  font-weight: 400;
+}
+
+.data-table td {
+  padding: 0.55rem 1rem 0.55rem 0;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.hash {
+  font-size: 0.58rem;
+  color: var(--muted);
+  word-break: break-all;
+}
+
+/* ── Form ── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.field { display: flex; flex-direction: column; gap: 0.35rem; }
+
+.field label {
+  font-size: 0.6rem;        /* was 0.55rem */
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.field input {
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  padding: 0.35rem 0;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+
+.field input:focus { border-bottom-color: var(--text); }
+.field input::placeholder { color: var(--muted); }
+
+.form-row { display: flex; gap: 2rem; }
+.form-row .field { flex: 1; }
+
+.btn-primary {
+  align-self: flex-start;
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.btn-primary:hover    { opacity: 0.75; }
+.btn-primary:disabled { opacity: 0.35; cursor: default; }
+
+.form-feedback { font-size: 0.65rem; }
+.form-feedback.ok  { color: var(--valid); }
+.form-feedback.err { color: var(--invalid); }
+
+/* ── Peers ── */
+.peer-list { display: flex; flex-direction: column; }
+
+.peer-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.7rem;
+}
+
+.empty { font-size: 0.65rem; color: var(--muted); padding: 0.75rem 0; }
+
+.btn-ghost {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.25rem 0;
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.btn-ghost:hover { color: var(--text); border-bottom-color: var(--text); }
+
+.error      { font-size: 0.7rem; color: var(--invalid); }
+.muted-text { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; }
