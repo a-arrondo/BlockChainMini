@@ -77,7 +77,7 @@ function HistoryPane() {
             {[...history.history].reverse().map(block => (
               <tr key={block.index}>
                 <td>{block.index}</td>
-                <td><span className="hash">{block.hash.slice(0, 20)}…</span></td>
+                <td><span className="hash">{block.hash.slice(0, 45)}…</span></td>
                 <td>{block.transactions.length}</td>
                 <td><span className="hash">{block.timestamp}</span></td>
               </tr>

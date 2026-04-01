@@ -173,13 +173,13 @@ nav {
 }
 
 .data-table colgroup col:nth-child(1) { width: 2.5rem; }
-.data-table colgroup col:nth-child(2) { width: 28%; }
+.data-table colgroup col:nth-child(2) { width: auto; }
 .data-table colgroup col:nth-child(3) { width: 5rem; }
-.data-table colgroup col:nth-child(4) { width: auto; }
+.data-table colgroup col:nth-child(4) { width: 13rem; }
 
 .data-table th {
-  text-align: left;
-  font-size: 0.7rem;
+  text-align: center;
+  font-size: 0.78rem;
   letter-spacing: 0;
   color: var(--muted);
   padding: 0 1rem 0.6rem 0;
@@ -191,12 +191,13 @@ nav {
   padding: 0.55rem 1rem 0.55rem 0;
   border-bottom: 1px solid var(--border);
   vertical-align: top;
+  font-size: 0.70rem;
 }
 
 .hash {
-  font-size: 0.58rem;
   color: var(--muted);
   word-break: break-all;
+  font-size: 0.70rem;
 }
 
 /* ── Form ── */
